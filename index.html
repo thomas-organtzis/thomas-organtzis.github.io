@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thomas I. Organtzis — Statement of Position</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap');
+  /* ============ TOKENS ============
+     Concept: a statement of financial position, but the entity is a career.
+     Restraint over decoration — the discipline IS the message. Ink on ledger stock,
+     one prussian accent for the totals that matter, audit-green only where something nets positive.
+  */
+  :root{
+    --paper:#F6F3EB; --paper-2:#EFEBDF; --band:#E8E3D4;
+    --ink:#1B1A16; --ink-2:#514D42; --faint:#8A8472;
+    --rule:#CBC4B0; --hair:#DAD4C3;
+    --accent:#1D4E63;   /* prussian — the figure that matters */
+    --brass:#82702F;    /* period labels */
+    --pos:#2E6B4F;      /* nets positive */
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+    --serif:'Newsreader',Georgia,serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:17px;line-height:1.55;
+    -webkit-font-smoothing:antialiased}
+  .sheet{max-width:940px;margin:0 auto;padding:0 28px}
+
+  /* ---- statement header ---- */
+  .head{padding:52px 0 26px;border-bottom:2px solid var(--ink)}
+  .entity{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:16px}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(30px,5vw,46px);letter-spacing:-.015em;line-height:1.05}
+  .role{font-family:var(--mono);font-size:13px;color:var(--ink-2);margin-top:12px;letter-spacing:.01em}
+  .asof{font-family:var(--mono);font-size:11px;color:var(--faint);margin-top:18px;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+    border-top:1px solid var(--hair);padding-top:12px}
+  .asof a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--rule)}
+  .asof a:hover{border-color:var(--accent)}
+
+  /* ---- notes to the reader ---- */
+  .prologue{padding:26px 0;border-bottom:1px solid var(--rule);font-size:18px;color:var(--ink-2);max-width:66ch}
+  .prologue strong{color:var(--ink);font-weight:600}
+
+  /* ---- statement blocks ---- */
+  .stmt{padding:34px 0;border-bottom:1px solid var(--rule)}
+  .stmt-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px;cursor:pointer;
+    user-select:none}
+  .stmt-title{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+  .stmt-title .idx{color:var(--accent);margin-right:10px}
+  .stmt-note{font-family:var(--mono);font-size:11px;color:var(--faint)}
+  .stmt-caption{font-family:var(--serif);font-style:italic;color:var(--ink-2);font-size:15px;margin-bottom:18px;max-width:60ch}
+  .toggle{font-family:var(--mono);font-size:15px;color:var(--accent);transition:transform .2s}
+  .stmt.closed .toggle{transform:rotate(-90deg)}
+  .stmt.closed .rows,.stmt.closed .stmt-caption{display:none}
+
+  /* line items */
+  .row{display:grid;grid-template-columns:1fr auto;gap:20px;padding:11px 0;border-bottom:1px solid var(--hair);
+    align-items:baseline}
+  .row:last-child{border-bottom:none}
+  .li-label{font-family:var(--serif);font-size:16.5px}
+  .li-label .k{font-weight:600}
+  .li-label .d{color:var(--ink-2);font-size:14.5px;display:block;margin-top:2px;line-height:1.45}
+  .li-fig{font-family:var(--mono);font-size:14px;color:var(--accent);white-space:nowrap;text-align:right}
+  .li-fig.pos{color:var(--pos)}
+  .li-fig.soft{color:var(--faint)}
+
+  /* subtotal / total lines */
+  .total{display:grid;grid-template-columns:1fr auto;gap:20px;padding:14px 0 2px;margin-top:6px;
+    border-top:2px solid var(--ink);font-family:var(--mono);font-size:13px;letter-spacing:.02em}
+  .total .t-label{text-transform:uppercase;font-weight:600}
+  .total .t-fig{color:var(--accent);font-weight:600;text-align:right}
+
+  /* equity block — the leadership thesis, set apart */
+  .equity{background:var(--paper-2);border:1px solid var(--ink);padding:26px 28px;margin-top:4px}
+  .equity .stmt-title{color:var(--accent)}
+  .eq-thesis{font-family:var(--serif);font-size:19px;line-height:1.5;max-width:64ch;margin-bottom:16px}
+  .eq-thesis b{font-weight:600}
+  .eq-line{font-family:var(--serif);font-size:16px;color:var(--ink-2);padding:8px 0;border-top:1px solid var(--hair);
+    display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:baseline}
+  .eq-line .mk{font-family:var(--mono);font-size:12px;color:var(--brass)}
+
+  /* income statement — period results, employers named */
+  .period{margin-bottom:4px}
+  .p-firm{font-family:var(--mono);font-size:12px;color:var(--brass);letter-spacing:.04em;
+    display:flex;justify-content:space-between;padding-top:16px;border-top:1px solid var(--rule);margin-top:8px}
+  .p-role{font-family:var(--serif);font-weight:600;font-size:16.5px;margin:3px 0 8px}
+
+  /* interactive: view toggle */
+  .controls{display:flex;gap:0;font-family:var(--mono);font-size:12px;margin:22px 0 0;
+    border:1px solid var(--ink);width:fit-content}
+  .controls button{background:var(--paper);border:none;padding:9px 16px;cursor:pointer;
+    font-family:var(--mono);font-size:12px;color:var(--ink-2);border-right:1px solid var(--rule)}
+  .controls button:last-child{border-right:none}
+  .controls button.on{background:var(--accent);color:var(--paper)}
+
+  /* footnote / contact */
+  footer{padding:38px 0 64px}
+  .audit{font-family:var(--mono);font-size:11px;color:var(--faint);border-top:2px solid var(--ink);
+    padding-top:16px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  .audit a{color:var(--accent);text-decoration:none}
+  .contact{font-family:var(--mono);font-size:13px;margin-top:20px}
+  .contact a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--rule)}
+
+  /* sticky contact bar — sits at the top of the statement, travels with the scroll */
+  .rail{position:-webkit-sticky;position:sticky;top:0;left:0;right:0;z-index:100;
+    background:var(--paper);border-bottom:1px solid var(--rule)}
+  .rail-inner{max-width:940px;margin:0 auto;padding:9px 28px;
+    display:flex;justify-content:flex-end;align-items:center;gap:16px}
+  .rail-inner .id{margin-right:auto;font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--faint)}
+  .rail a{font-family:var(--mono);font-size:12px;letter-spacing:.02em;color:var(--accent);
+    text-decoration:none;border-bottom:1px solid var(--rule);padding-bottom:1px;transition:border-color .15s}
+  .rail a:hover{border-color:var(--accent)}
+  .ver{font-family:var(--mono);font-size:9px;color:var(--hair);text-align:center;padding:6px}
+  @media(max-width:640px){
+    .row,.total{grid-template-columns:1fr;gap:4px}
+    .li-fig,.total .t-fig{text-align:left}
+    .eq-line{grid-template-columns:1fr}
+    .rail-inner{padding:8px 20px;gap:12px}
+    .rail-inner .id{display:none}
+  }
+  @media(prefers-reduced-motion:reduce){.toggle{transition:none}}
+</style>
+</head>
+<body>
+
+<!-- sticky contact bar — travels with the scroll, aligned to the statement -->
+<nav class="rail">
+  <div class="rail-inner">
+    <span class="id">T. I. Organtzis · Statement of Position</span>
+    <a href="mailto:thomas.organtzis@gmail.com">email</a>
+    <a href="https://linkedin.com/in/thomasorgantzis" target="_blank" rel="noopener">linkedin</a>
+  </div>
+</nav>
+
+<div class="sheet">
+
+  <!-- HEADER -->
+  <div class="head">
+    <div class="entity">Statement of Position</div>
+    <h1>Thomas I. Organtzis</h1>
+    <div class="role">Chief Financial Officer · Group Reporting, Consolidation & Finance Transformation</div>
+    <div class="asof">
+      <span>Prepared on a going-concern basis · figures are career, not currency</span>
+      <span><a href="https://linkedin.com/in/thomasorgantzis" target="_blank" rel="noopener">linkedin.com/in/thomasorgantzis</a></span>
+    </div>
+  </div>
+
+  <!-- PROLOGUE -->
+  <div class="prologue">
+    I read a business through its numbers, and I have learned to read a career the same way.
+    What follows is an honest statement of position — <strong>what I have built and lead, what I am still
+    developing, and what I am worth to the organisation I join next.</strong> The figures are outcomes, not effort.
+  </div>
+
+  <!-- VIEW CONTROL (interactive) -->
+  <div class="controls" role="tablist">
+    <button class="on" data-view="all">Full statement</button>
+    <button data-view="lead">Leadership only</button>
+    <button data-view="results">Results only</button>
+  </div>
+
+  <!-- ASSETS -->
+  <section class="stmt" data-block="assets">
+    <div class="stmt-head">
+      <div class="stmt-title"><span class="idx">01</span>Assets — what I hold and lead</div>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="stmt-caption">The durable holdings: teams built, functions owned, systems that outlast my tenure.</div>
+    <div class="rows">
+      <div class="row" data-tag="lead">
+        <div class="li-label"><span class="k">Leadership legacy — a successor built</span>
+          <span class="d">Mentored an interim accounting assistant, hired 2015, through to Chief Accountant over eight years; he succeeded me directly on my departure. The strongest asset a leader holds: capability that outlasts them.</span></div>
+        <div class="li-fig pos">1 successor</div>
+      </div>
+      <div class="row" data-tag="lead">
+        <div class="li-label"><span class="k">A function directed at scale</span>
+          <span class="d">35 finance professionals through four direct reports across a 30–40 entity portfolio; proposed the organisational structure adopted in a group restructuring.</span></div>
+        <div class="li-fig">35 / 4 reports</div>
+      </div>
+      <div class="row" data-tag="lead">
+        <div class="li-label"><span class="k">Group reporting owned into listed parents</span>
+          <span class="d">The group close and consolidation of a €1bn, 20-country portfolio into a NYSE-listed parent, and the Greek entity of a global group into HQ today.</span></div>
+        <div class="li-fig">€1bn · 40 entities</div>
+      </div>
+      <div class="row" data-tag="lead">
+        <div class="li-label"><span class="k">Governance held as statutory director</span>
+          <span class="d">Board member of two legal entities with full fiduciary responsibility; designed the delegation-of-authority framework governing ten signatories beyond €50M.</span></div>
+        <div class="li-fig">2 boards</div>
+      </div>
+      <div class="row" data-tag="build">
+        <div class="li-label"><span class="k">Systems built, not commissioned</span>
+          <span class="d">A finance function transformed end to end — and where it mattered, built by hand: a reporting pipeline rewritten in Python, an automation suite releasing ~1 FTE, a six-check CV validation engine. I lead the transformation; I can also build it.</span></div>
+        <div class="li-fig">hands-on</div>
+      </div>
+      <div class="row" data-tag="build">
+        <div class="li-label"><span class="k">Technical authority</span>
+          <span class="d">Six years Big 4 (PwC, Greece & USA); ICAEW Certificate in IFRS, top 1% globally; SOEL professional examinations completed; transfer pricing through to a live judicial appeal.</span></div>
+        <div class="li-fig">IFRS top 1%</div>
+      </div>
+      <div class="total" data-tag="lead">
+        <div class="t-label">Total assets — leadership + capability</div>
+        <div class="t-fig">carried forward</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIABILITIES -->
+  <section class="stmt" data-block="liab">
+    <div class="stmt-head">
+      <div class="stmt-title"><span class="idx">02</span>Liabilities — what I am still developing</div>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="stmt-caption">Stated plainly, because a statement that hides its liabilities cannot be trusted. Maturity is knowing them.</div>
+    <div class="rows">
+      <div class="row">
+        <div class="li-label"><span class="k">Diplomatic agility in contested rooms</span>
+          <span class="d">I lead through evidence and directness. I have learned — sometimes the hard way — that in a family-owned or politically complex setting, being right is not the same as carrying the room. I work at this deliberately.</span></div>
+        <div class="li-fig soft">developing</div>
+      </div>
+      <div class="row">
+        <div class="li-label"><span class="k">Pure-SaaS revenue mechanics</span>
+          <span class="d">My operating ground is manufacturing, travel technology and appliances. I understand SaaS revenue recognition at a controlling level, but I would build deep subscription-specific fluency on top of a strong base rather than claim years of it.</span></div>
+        <div class="li-fig soft">in progress</div>
+      </div>
+      <div class="total">
+        <div class="t-label">Total liabilities — named, not hidden</div>
+        <div class="t-fig">manageable</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EQUITY (the leadership thesis) -->
+  <section class="stmt equity" data-block="equity" data-tag="lead">
+    <div class="stmt-head">
+      <div class="stmt-title"><span class="idx">03</span>Equity — the residual value</div>
+    </div>
+    <div class="eq-thesis">
+      Strip out the assets and the liabilities and what remains is how I lead:
+      <b>I initiate change, set the direction, and develop the people who carry it</b> — and I stay close
+      enough to the work to build the tool myself when that is what ships the result. Most finance leaders
+      can do one or the other. The equity here is in doing both without confusing them.
+    </div>
+    <div class="eq-line"><span class="mk">01</span><span><b>Lead through others.</b> The measure is what survives my departure — a successor promoted, a structure adopted, a reconciliation any team member can run.</span></div>
+    <div class="eq-line"><span class="mk">02</span><span><b>Own the whole record.</b> Close, consolidation, control and the audit relationship across multi-entity, multi-jurisdiction groups — end to end, not in fragments.</span></div>
+    <div class="eq-line"><span class="mk">03</span><span><b>Automate what shouldn't be manual.</b> A day off the close, an FTE released — because I built it, not because I asked for it.</span></div>
+    <div class="eq-line"><span class="mk">04</span><span><b>State the position honestly.</b> To auditors, to boards, and about myself. A number you can trust is worth more than a number you like.</span></div>
+  </section>
+
+  <!-- INCOME STATEMENT (period results, employers named) -->
+  <section class="stmt" data-block="income">
+    <div class="stmt-head">
+      <div class="stmt-title"><span class="idx">04</span>Statement of results — by period</div>
+      <span class="toggle">▾</span>
+    </div>
+    <div class="stmt-caption">What each engagement produced. Employers named; results attributed.</div>
+    <div class="rows">
+
+      <div class="period" data-tag="results">
+        <div class="p-firm"><span>GLOBAL APPLIANCE GROUP — current</span><span>2025 – present</span></div>
+        <div class="p-role">Chief Financial Officer, Greece</div>
+        <div class="row"><div class="li-label"><span class="d">Directing the finance function's transformation; rebuilt the reporting pipeline in Python — a full day off the close. Set the delegation-of-authority framework across ten signatories beyond €50M. Current role; further detail on request.</span></div><div class="li-fig pos">−1 day close</div></div>
+      </div>
+
+      <div class="period" data-tag="results">
+        <div class="p-firm"><span>ETRAVELI GROUP — CVC-owned</span><span>Jan 2023 – Jan 2025</span></div>
+        <div class="p-role">Director, Shared Service Accounting & Head of Finance</div>
+        <div class="row"><div class="li-label"><span class="d">Directed 35 professionals across a 30–40 entity portfolio. Took audit findings from 20 to 5 by building the control framework that closed them; the close from five days to four. Role eliminated in a group restructuring.</span></div><div class="li-fig pos">20 → 5 findings</div></div>
+      </div>
+
+      <div class="period" data-tag="results">
+        <div class="p-firm"><span>SONOCO — NYSE-listed, European HQ (Belgium)</span><span>Nov 2015 – Jan 2023</span></div>
+        <div class="p-role">Finance Director, Greece · concurrently Group Reporting, European HQ</div>
+        <div class="row"><div class="li-label"><span class="d">Ran the group close across 40 entities into a NYSE parent; point of contact for the audit across 15 countries. Uncovered and resolved a €1.5M control failure. Developed my own successor to Chief Accountant. Board member of two entities.</span></div><div class="li-fig pos">€1bn · 20 countries</div></div>
+      </div>
+
+      <div class="period" data-tag="results">
+        <div class="p-firm"><span>PwC — Greece & USA</span><span>Sep 2008 – Aug 2014</span></div>
+        <div class="p-role">Assurance & Advisory · Senior in Charge</div>
+        <div class="row"><div class="li-label"><span class="d">Six years auditing listed and multinational groups under IFRS, US GAAP and Greek GAAP — including SEC registrants Dow Chemical and Dana Incorporated as Senior in Charge.</span></div><div class="li-fig">SEC registrants</div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER / AUDIT LINE -->
+  <footer>
+    <div class="audit">
+      <span>This statement is self-prepared and honestly stated. Full history and references on request.</span>
+      <span>MSc Distinction, Strathclyde · Certified Accountant, Class A</span>
+    </div>
+    <div class="contact">
+      Correspondence: <a href="mailto:thomas.organtzis@gmail.com">thomas.organtzis@gmail.com</a>
+      &nbsp;·&nbsp; <a href="https://linkedin.com/in/thomasorgantzis" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </footer>
+
+  <div class="ver">build 2026-08-19 · auto · <span style="color:#2E6B4F">✓ all checks pass</span></div>
+
+</div>
+
+<script>
+  // ---- collapsible statement blocks (mobile-safe) ----
+  document.querySelectorAll('.stmt-head').forEach(function(h){
+    var blk=h.closest('.stmt');
+    if(blk.classList.contains('equity')) return; // equity always open
+    h.style.cursor='pointer';
+    h.addEventListener('click',function(){ blk.classList.toggle('closed'); });
+  });
+
+  // ---- view filter: full / leadership / results ----
+  var btns=document.querySelectorAll('.controls button');
+  function applyView(v){
+    for(var i=0;i<btns.length;i++){
+      btns[i].classList.toggle('on', btns[i].getAttribute('data-view')===v);
+    }
+    var blocks=document.querySelectorAll('[data-block]');
+    for(var j=0;j<blocks.length;j++){
+      var block=blocks[j], id=block.getAttribute('data-block'), show=true;
+      if(v==='lead')    show=(id==='assets'||id==='equity');
+      if(v==='results') show=(id==='income');
+      block.style.display = show ? '' : 'none';
+      if(show) block.classList.remove('closed');   // never leave a shown block collapsed
+    }
+    var buildRows=document.querySelectorAll('.row[data-tag="build"]');
+    for(var k=0;k<buildRows.length;k++){
+      buildRows[k].style.display = (v==='lead') ? 'none' : '';
+    }
+  }
+  for(var i=0;i<btns.length;i++){
+    btns[i].addEventListener('click', function(e){
+      e.preventDefault();
+      applyView(this.getAttribute('data-view'));
+    });
+  }
+  applyView('all'); // establish a known initial state
+</script>
+</body>
+</html>
